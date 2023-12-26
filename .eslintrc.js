@@ -8,27 +8,32 @@ module.exports = {
       jsx: true, // 支援 JSX
       experimentalObjectRestSpread: true,
     },
+    project: './tsconfig.eslint.json',
   },
   // 加上 ts 相關規則
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.ts', '*.tsx', '**/*.ts', '**/*.tsx'],
       extends: [
+        'airbnb',
+        'airbnb-typescript',
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:import/recommended',
       ],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
+      rules: { 'object-curly-newline': 'off', 'react/jsx-props-no-spreading': 'off' },
     },
   ],
   extends: [
+    'airbnb',
+    'airbnb-typescript',
     'plugin:import/typescript',
     'plugin:tailwindcss/recommended',
     'plugin:@next/next/recommended',
     'plugin:react/recommended',
   ],
-  // 加上 no console log 規則
   rules: {
     'no-console': 'error',
     'tailwindcss/no-contradicting-classname': 'error',
@@ -38,6 +43,8 @@ module.exports = {
     'tailwindcss/migration-from-tailwind-2': 'error',
     'tailwindcss/no-arbitrary-value': 'error',
     'tailwindcss/no-custom-classname': 'warn',
+    'object-curly-newline': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 
   // 整合 prettier 和解決 prettier 衝突問題
@@ -56,5 +63,6 @@ module.exports = {
       version: 'detect',
     },
   },
-  env: {browser: true, node: true, es6: true},
+  // 讓 eslint 知道我們在使用 jest ，這樣在跑 test.js 時 eslint 就不會報 jest 關鍵字的錯誤了
+  env: { browser: true, node: true, es6: true, jest: true },
 };
